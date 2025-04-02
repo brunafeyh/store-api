@@ -30,17 +30,13 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<CategoryDTO> listCategories() {
-        List<Category> categories = categoryService.getAllCategories();
-        return categories.stream()
-                .map(cat -> new CategoryDTO(cat.getName(), cat.getDescription()))
-                .collect(Collectors.toList());
+    public List<Category> listCategories() {
+        return categoryService.getAllCategories();
     }
 
     @GetMapping("/{id}")
-    public CategoryDTO getCategoryById(@PathVariable UUID id) {
-        Category category = categoryService.getCategoryById(id);
-        return new CategoryDTO(category.getName(), category.getDescription());
+    public Category getCategoryById(@PathVariable UUID id) {
+        return categoryService.getCategoryById(id);
     }
 
     @PutMapping("/{id}")
