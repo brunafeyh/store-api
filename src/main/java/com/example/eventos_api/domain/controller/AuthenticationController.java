@@ -1,11 +1,11 @@
 package com.example.eventos_api.domain.controller;
-
-import com.example.eventos_api.domain.user.User;
+import com.example.eventos_api.domain.service.UserService;
+import com.example.eventos_api.domain.user.RecoveryJwtTokenDto;
 import com.example.eventos_api.domain.user.UserLoginDTO;
 import com.example.eventos_api.domain.user.UserRegistrationDTO;
-import com.example.eventos_api.domain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,26 +20,22 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register/client")
-    @ResponseStatus(HttpStatus.CREATED)
-    public User registerClient(@RequestBody UserRegistrationDTO registrationDTO) {
-        return userService.registerClient(registrationDTO);
+    public ResponseEntity<?> registerClient(@RequestBody UserRegistrationDTO createUserDto) {
+        userService.registerClient(createUserDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/register/employee")
-    @ResponseStatus(HttpStatus.CREATED)
-    public User registerEmployee(@RequestHeader("Authorization") String adminToken,
-                                 @RequestBody UserRegistrationDTO registrationDTO) {
-        return userService.registerEmployee(registrationDTO, adminToken);
+    public ResponseEntity<?> registerEmployee(@RequestHeader("Authorization") String adminToken,
+                                              @RequestBody UserRegistrationDTO createUserDto) {
+        userService.registerEmployee(createUserDto, adminToken);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UserLoginDTO loginDTO) {
-        return userService.login(loginDTO);
+    public ResponseEntity<RecoveryJwtTokenDto> login(@RequestBody UserLoginDTO loginUserDto) {
+        RecoveryJwtTokenDto tokenDto = userService.authenticateUser(loginUserDto);
+        return ResponseEntity.ok(tokenDto);
     }
 
-    @PostMapping("/logout")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void logout(@RequestHeader("Authorization") String token) {
-        userService.logout(token);
-    }
 }
