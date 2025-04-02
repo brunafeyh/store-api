@@ -9,6 +9,7 @@ import com.example.eventos_api.repositories.CategoryRepository;
 import com.example.eventos_api.repositories.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -37,7 +38,7 @@ public class ItemService {
         item.setSku(dto.sku());
         item.setName(dto.name());
         item.setDescription(dto.description());
-        item.setImageUrl(dto.imageUrl());
+        item.setImageUrls(dto.imageUrls().toArray(new String[0]));
         item.setPrice(dto.price());
         item.setStock(dto.stock());
         item.setCategory(category);
@@ -63,7 +64,7 @@ public class ItemService {
         item.setSku(dto.sku());
         item.setName(dto.name());
         item.setDescription(dto.description());
-        item.setImageUrl(dto.imageUrl());
+        item.setImageUrls(dto.imageUrls().toArray(new String[0]));
         item.setPrice(dto.price());
         item.setStock(dto.stock());
         item.setUpdatedAt(new Date());

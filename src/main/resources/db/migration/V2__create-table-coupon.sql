@@ -74,7 +74,7 @@ CREATE TABLE item (
                       sku VARCHAR(50) UNIQUE,
                       name VARCHAR(100) NOT NULL,
                       description VARCHAR(250),
-                      image_url TEXT,
+                      image_urls TEXT[],
                       price DECIMAL(10,2) NOT NULL,
                       stock INTEGER NOT NULL DEFAULT 0,
                       category_id UUID,
@@ -83,7 +83,7 @@ CREATE TABLE item (
                       updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                       FOREIGN KEY (category_id) REFERENCES category(id),
                       FOREIGN KEY (brand_id) REFERENCES brand(id)
-);
+)
 
 --------------------------------------------------
 -- 7. Tabela de Carrinho de Compras (cart)

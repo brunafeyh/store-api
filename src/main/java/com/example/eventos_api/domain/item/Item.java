@@ -23,8 +23,8 @@ public class Item {
 
     private String description;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Column(name = "image_urls", columnDefinition = "text[]")
+    private String[] imageUrls;
 
     @Column(nullable = false)
     private BigDecimal price;
@@ -46,10 +46,8 @@ public class Item {
     @Column(name = "updated_at", nullable = false)
     private Date updatedAt = new Date();
 
-    // Construtor padrão
     public Item() {}
 
-    // Getters e setters
     public UUID getId() {
         return id;
     }
@@ -74,11 +72,11 @@ public class Item {
     public void setDescription(String description) {
         this.description = description;
     }
-    public String getImageUrl() {
-        return imageUrl;
+    public String[] getImageUrls() {
+        return imageUrls;
     }
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImageUrls(String[] imageUrls) {
+        this.imageUrls = imageUrls;
     }
     public BigDecimal getPrice() {
         return price;
