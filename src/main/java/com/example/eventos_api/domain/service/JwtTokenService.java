@@ -14,11 +14,9 @@ import java.util.Date;
 @Service
 public class JwtTokenService {
 
-    // Definida em application.properties: jwt.secret=SuaChaveSecretaMuitoComplexa
     @Value("${jwt.secret}")
     private String jwtSecret;
 
-    // Defina o emissor e a validade (por exemplo, 1 hora)
     @Value("${jwt.issuer}")
     private String jwtIssuer;
 
