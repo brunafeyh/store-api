@@ -27,9 +27,13 @@ public class ItemController {
     }
 
     @GetMapping
-    public List<Item> getAllItems() {
-        return itemService.getAllItems();
+    public List<Item> getAllItems(
+            @RequestParam(required = false) UUID categoryId,
+            @RequestParam(required = false) UUID brandId
+    ) {
+        return itemService.getFilteredItems(categoryId, brandId);
     }
+
 
     @GetMapping("/{id}")
     public Item getItemById(@PathVariable UUID id) {

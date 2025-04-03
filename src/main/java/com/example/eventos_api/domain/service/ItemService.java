@@ -49,6 +49,19 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
+    public List<Item> getFilteredItems(UUID categoryId, UUID brandId) {
+        if (categoryId != null && brandId != null) {
+            return itemRepository.findByCategoryIdAndBrandId(categoryId, brandId);
+        } else if (categoryId != null) {
+            return itemRepository.findByCategoryId(categoryId);
+        } else if (brandId != null) {
+            return itemRepository.findByBrandId(brandId);
+        } else {
+            return itemRepository.findAll();
+        }
+    }
+
+
     public List<Item> getAllItems() {
         return itemRepository.findAll();
     }

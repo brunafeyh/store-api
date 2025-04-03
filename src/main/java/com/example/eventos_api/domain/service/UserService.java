@@ -71,10 +71,15 @@ public class UserService {
 
 
     public User getUserByToken(String token) {
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7); // Remove o "Bearer "
+        }
+
         String userId = jwtTokenService.getSubjectFromToken(token);
         return userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado para o token informado"));
     }
+
 
     public List<User> listAllClients() {
         return userRepository.findAll().stream()
