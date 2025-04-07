@@ -22,11 +22,11 @@ public class BrandController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public BrandDTO createBrand(@RequestBody BrandDTO dto) {
+    public Brand createBrand(@RequestBody BrandDTO dto) {
         Brand brand = new Brand();
         brand.setName(dto.name());
-        Brand saved = brandService.createBrand(brand);
-        return new BrandDTO(saved.getName());
+        brand.setDescription(dto.description());
+        return brandService.createBrand(brand);
     }
 
     @GetMapping
@@ -40,11 +40,11 @@ public class BrandController {
     }
 
     @PutMapping("/{id}")
-    public BrandDTO updateBrand(@PathVariable UUID id, @RequestBody BrandDTO dto) {
+    public Brand updateBrand(@PathVariable UUID id, @RequestBody BrandDTO dto) {
         Brand brand = new Brand();
         brand.setName(dto.name());
-        Brand updated = brandService.updateBrand(id, brand);
-        return new BrandDTO(updated.getName());
+        brand.setDescription(dto.description());
+        return brandService.updateBrand(id, brand);
     }
 
     @DeleteMapping("/{id}")

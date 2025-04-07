@@ -63,7 +63,9 @@ CREATE TABLE category (
 CREATE TABLE brand (
                        id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
                        name VARCHAR(100) NOT NULL UNIQUE,
-                       created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+                       description VARCHAR(250),
+                       created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                        updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 --------------------------------------------------

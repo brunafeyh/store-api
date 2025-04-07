@@ -34,7 +34,6 @@ public class Category {
         this.description = description;
     }
 
-    // Getters e setters...
     public UUID getId() {
         return id;
     }

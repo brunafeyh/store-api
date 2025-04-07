@@ -33,6 +33,7 @@ public class BrandService {
     public Brand updateBrand(UUID id, Brand brand) {
         Brand existingBrand = getBrandById(id);
         existingBrand.setName(brand.getName());
+        existingBrand.setDescription(brand.getDescription());
         return brandRepository.save(existingBrand);
     }
 
