@@ -49,18 +49,28 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
-    public List<Item> getFilteredItems(UUID categoryId, UUID brandId) {
-        if (categoryId != null && brandId != null) {
-            return itemRepository.findByCategoryIdAndBrandId(categoryId, brandId);
-        } else if (categoryId != null) {
-            return itemRepository.findByCategoryId(categoryId);
-        } else if (brandId != null) {
-            return itemRepository.findByBrandId(brandId);
-        } else {
-            return itemRepository.findAll();
-        }
-    }
+    public List<Item> getFilteredItems(UUID categoryId, UUID brandId, String name) {
+        List<Item> baseFilteredItems;
 
+        if (categoryId != null && brandId != null) {
+            baseFilteredItems = itemRepository.findByCategoryIdAndBrandId(categoryId, brandId);
+        } else if (categoryId != null) {
+            baseFilteredItems = itemRepository.findByCategoryId(categoryId);
+        } else if (brandId != null) {
+            baseFilteredItems = itemRepository.findByBrandId(brandId);
+        } else {
+            baseFilteredItems = itemRepository.findAll();
+        }
+
+        if (name != null && !name.isBlank()) {
+            String lowerName = name.toLowerCase();
+            return baseFilteredItems.stream()
+                    .filter(item -> item.getName() != null && item.getName().toLowerCase().contains(lowerName))
+                    .toList();
+        }
+
+        return baseFilteredItems;
+    }
 
     public List<Item> getAllItems() {
         return itemRepository.findAll();

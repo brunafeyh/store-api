@@ -29,11 +29,11 @@ public class ItemController {
     @GetMapping
     public List<Item> getAllItems(
             @RequestParam(required = false) UUID categoryId,
-            @RequestParam(required = false) UUID brandId
+            @RequestParam(required = false) UUID brandId,
+            @RequestParam(required = false) String name
     ) {
-        return itemService.getFilteredItems(categoryId, brandId);
+        return itemService.getFilteredItems(categoryId, brandId, name);
     }
-
 
     @GetMapping("/{id}")
     public Item getItemById(@PathVariable UUID id) {
