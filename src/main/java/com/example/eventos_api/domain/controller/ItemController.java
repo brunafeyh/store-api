@@ -2,6 +2,7 @@ package com.example.eventos_api.domain.controller;
 
 import com.example.eventos_api.domain.item.Item;
 import com.example.eventos_api.domain.item.ItemRequestDTO;
+import com.example.eventos_api.domain.item.UpdateStockDTO;
 import com.example.eventos_api.domain.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,4 +51,10 @@ public class ItemController {
     public void deleteItem(@PathVariable UUID id) {
         itemService.deleteItem(id);
     }
+
+    @PatchMapping("/{id}/stock")
+    public Item updateStock(@PathVariable UUID id, @RequestBody UpdateStockDTO dto) {
+        return itemService.updateStock(id, dto.stock());
+    }
+
 }

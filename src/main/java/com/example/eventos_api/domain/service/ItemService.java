@@ -110,4 +110,12 @@ public class ItemService {
     public void deleteItem(UUID id) {
         itemRepository.deleteById(id);
     }
+
+    public Item updateStock(UUID id, int newStock) {
+        Item item = getItemById(id);
+        item.setStock(newStock);
+        item.setUpdatedAt(new Date());
+        return itemRepository.save(item);
+    }
+
 }

@@ -11,3 +11,4 @@ public interface ItemRepository extends JpaRepository<Item, UUID> {
     List<Item> findByBrandId(UUID brandId);
     List<Item> findByCategoryIdAndBrandId(UUID categoryId, UUID brandId);
 }
+
