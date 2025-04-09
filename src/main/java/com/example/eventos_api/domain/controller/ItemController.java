@@ -56,5 +56,4 @@ public class ItemController {
     public Item updateStock(@PathVariable UUID id, @RequestBody UpdateStockDTO dto) {
         return itemService.updateStock(id, dto.stock());
     }
-
 }
