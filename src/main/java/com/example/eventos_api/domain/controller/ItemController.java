@@ -52,8 +52,9 @@ public class ItemController {
         itemService.deleteItem(id);
     }
 
-    @PatchMapping("/{id}/stock")
+    @PutMapping("/{id}/stock")
     public Item updateStock(@PathVariable UUID id, @RequestBody UpdateStockDTO dto) {
         return itemService.updateStock(id, dto.stock());
     }
+
 }
