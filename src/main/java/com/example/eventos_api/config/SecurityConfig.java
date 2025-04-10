@@ -2,6 +2,7 @@ package com.example.eventos_api.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -20,13 +21,20 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .cors()
-                .and()
-                .authorizeHttpRequests(authorize -> authorize
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.GET, "/items/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/brands/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/categories/**").permitAll()
+
                         .requestMatchers("/auth/register/**", "/auth/login").permitAll()
+
+                        .requestMatchers("/users/**").authenticated()
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 

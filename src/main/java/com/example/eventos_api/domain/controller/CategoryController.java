@@ -1,9 +1,12 @@
 package com.example.eventos_api.domain.controller;
 import com.example.eventos_api.domain.category.Category;
 import com.example.eventos_api.domain.category.CategoryDTO;
+import com.example.eventos_api.domain.category.CategoryResponseDTO;
 import com.example.eventos_api.domain.service.CategoryService;
+import com.example.eventos_api.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
@@ -14,10 +17,12 @@ import java.util.stream.Collectors;
 public class CategoryController {
 
     private final CategoryService categoryService;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    public CategoryController(CategoryService categoryService) {
+    public CategoryController(CategoryService categoryService, CategoryRepository categoryRepository) {
         this.categoryService = categoryService;
+        this.categoryRepository = categoryRepository;
     }
 
     @PostMapping
@@ -30,8 +35,12 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<Category> listCategories() {
-        return categoryService.getAllCategories();
+    public ResponseEntity<List<CategoryResponseDTO>> getAllCategories() {
+        List<Category> categories = categoryRepository.findAll();
+        List<CategoryResponseDTO> response = categories.stream()
+                .map(CategoryResponseDTO::new)
+                .toList();
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
