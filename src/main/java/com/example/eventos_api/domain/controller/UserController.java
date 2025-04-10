@@ -27,4 +27,10 @@ public class UserController {
         return ResponseEntity.ok(clients);
     }
 
+    @GetMapping("/employees")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<User>> getAllEmployees() {
+        List<User> employees = userService.listAllEmployees();
+        return ResponseEntity.ok(employees);
+    }
 }

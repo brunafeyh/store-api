@@ -109,6 +109,13 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public List<User> listAllEmployees() {
+        return userRepository.findAll().stream()
+                .filter(user -> user.getRole() == Role.EMPLOYEE)
+                .collect(Collectors.toList());
+    }
+
+
     public void deleteUser(UUID id) {
         userRepository.deleteById(id);
     }
