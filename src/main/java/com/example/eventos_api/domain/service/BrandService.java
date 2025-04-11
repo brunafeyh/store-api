@@ -1,6 +1,6 @@
 package com.example.eventos_api.domain.service;
-
 import com.example.eventos_api.domain.brand.Brand;
+import com.example.eventos_api.domain.brand.BrandResponseDTO;
 import com.example.eventos_api.repositories.BrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +28,30 @@ public class BrandService {
     public Brand getBrandById(UUID id) {
         return brandRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Marca não encontrada"));
+    }
+
+    public BrandResponseDTO getBrandWithItems(UUID id) {
+        Brand brand = getBrandById(id);
+        return new BrandResponseDTO(brand);
+    }
+
+    public List<BrandResponseDTO> getAllBrandsWithItems() {
+        return brandRepository.findAll().stream()
+                .map(BrandResponseDTO::new)
+                .toList();
+    }
+
+    public List<BrandResponseDTO> getFilteredBrands(String name, List<UUID> ids) {
+        List<Brand> allBrands = brandRepository.findAll();
+
+        return allBrands.stream()
+                .filter(brand -> {
+                    boolean matchName = name == null || brand.getName().toLowerCase().contains(name.toLowerCase());
+                    boolean matchId = ids == null || ids.contains(brand.getId());
+                    return matchName && matchId;
+                })
+                .map(BrandResponseDTO::new)
+                .toList();
     }
 
     public Brand updateBrand(UUID id, Brand brand) {

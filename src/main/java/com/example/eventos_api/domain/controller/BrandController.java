@@ -1,13 +1,13 @@
 package com.example.eventos_api.domain.controller;
 import com.example.eventos_api.domain.brand.Brand;
 import com.example.eventos_api.domain.brand.BrandDTO;
+import com.example.eventos_api.domain.brand.BrandResponseDTO;
 import com.example.eventos_api.domain.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/brands")
@@ -30,13 +30,16 @@ public class BrandController {
     }
 
     @GetMapping
-    public List<Brand> listBrands() {
-        return brandService.getAllBrands();
+    public List<BrandResponseDTO> listBrands(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) List<UUID> ids
+    ) {
+        return brandService.getFilteredBrands(name, ids);
     }
 
     @GetMapping("/{id}")
-    public Brand getBrandById(@PathVariable UUID id) {
-        return brandService.getBrandById(id);
+    public BrandResponseDTO getBrandById(@PathVariable UUID id) {
+        return brandService.getBrandWithItems(id);
     }
 
     @PutMapping("/{id}")

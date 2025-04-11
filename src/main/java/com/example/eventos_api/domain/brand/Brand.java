@@ -1,7 +1,11 @@
 package com.example.eventos_api.domain.brand;
 
+import com.example.eventos_api.domain.item.Item;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -23,6 +27,9 @@ public class Brand {
 
     @Column(name = "updated_at", nullable = false)
     private Date updatedAt = new Date();
+
+    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Item> items = new ArrayList<>();
 
     public Brand() {
     }
@@ -64,5 +71,12 @@ public class Brand {
     }
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 }

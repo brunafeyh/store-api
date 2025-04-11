@@ -39,9 +39,8 @@ public class ItemController {
                 .toList();
     }
 
-
     @GetMapping("/{id}")
-    public Item getItemById(@PathVariable UUID id) {
+    public ItemSimpleDTO getItemById(@PathVariable UUID id) {
         return itemService.getItemById(id);
     }
 

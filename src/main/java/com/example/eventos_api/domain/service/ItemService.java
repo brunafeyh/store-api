@@ -4,6 +4,7 @@ import com.example.eventos_api.domain.brand.Brand;
 import com.example.eventos_api.domain.category.Category;
 import com.example.eventos_api.domain.item.Item;
 import com.example.eventos_api.domain.item.ItemRequestDTO;
+import com.example.eventos_api.domain.item.ItemSimpleDTO;
 import com.example.eventos_api.repositories.BrandRepository;
 import com.example.eventos_api.repositories.CategoryRepository;
 import com.example.eventos_api.repositories.ItemRepository;
@@ -76,13 +77,18 @@ public class ItemService {
         return itemRepository.findAll();
     }
 
-    public Item getItemById(UUID id) {
+    public ItemSimpleDTO getItemById(UUID id) {
+        return itemRepository.findById(id)
+                .map(ItemSimpleDTO::new)
+                .orElseThrow(() -> new RuntimeException("Item não encontrado"));
+    }
+    private Item findItemEntityById(UUID id) {
         return itemRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Item não encontrado"));
     }
 
     public Item updateItem(UUID id, ItemRequestDTO dto) {
-        Item item = getItemById(id);
+        Item item = findItemEntityById(id);
 
         item.setSku(dto.sku());
         item.setName(dto.name());
@@ -112,7 +118,7 @@ public class ItemService {
     }
 
     public Item updateStock(UUID id, int newStock) {
-        Item item = getItemById(id);
+        Item item = findItemEntityById(id);
         item.setStock(newStock);
         item.setUpdatedAt(new Date());
         return itemRepository.save(item);
