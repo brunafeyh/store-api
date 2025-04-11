@@ -35,11 +35,22 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryResponseDTO>> getAllCategories() {
+    public ResponseEntity<List<CategoryResponseDTO>> getAllCategories(
+            @RequestParam(required = false) String name
+    ) {
         List<Category> categories = categoryRepository.findAll();
+
+        if (name != null && !name.isBlank()) {
+            String lowerName = name.toLowerCase();
+            categories = categories.stream()
+                    .filter(cat -> cat.getName() != null && cat.getName().toLowerCase().contains(lowerName))
+                    .toList();
+        }
+
         List<CategoryResponseDTO> response = categories.stream()
                 .map(CategoryResponseDTO::new)
                 .toList();
+
         return ResponseEntity.ok(response);
     }
 
